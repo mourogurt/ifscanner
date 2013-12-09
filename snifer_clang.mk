@@ -2,12 +2,12 @@
 ## Auto Generated makefile by CodeLite IDE
 ## any manual changes will be erased      
 ##
-## Release
+## Debug
 ProjectName            :=snifer_clang
-ConfigurationName      :=Release
-WorkspacePath          := "/home/maxis11/sources/clang/snifer_clang"
-ProjectPath            := "/home/maxis11/sources/clang/snifer_clang"
-IntermediateDirectory  :=./Release
+ConfigurationName      :=Debug
+WorkspacePath          := "/home/maxis11/sources/clang/ifscanner"
+ProjectPath            := "/home/maxis11/sources/clang/ifscanner"
+IntermediateDirectory  :=./Debug
 OutDir                 := $(IntermediateDirectory)
 CurrentFileName        :=
 CurrentFilePath        :=
@@ -50,8 +50,8 @@ LibPath                := $(LibraryPathSwitch).
 AR       := ar rcus
 CXX      := clang++
 CC       := clang
-CXXFLAGS :=  -O2 -Wall -std=c++11 $(Preprocessors)
-CFLAGS   :=  -O2 -Wall $(Preprocessors)
+CXXFLAGS :=  -g -O0 -Wall -std=c++11 $(Preprocessors)
+CFLAGS   :=  -g -O0 -Wall $(Preprocessors)
 ASFLAGS  := 
 AS       := llvm-as
 
@@ -79,7 +79,7 @@ $(OutputFile): $(IntermediateDirectory)/.d $(Objects)
 	$(LinkerName) $(OutputSwitch)$(OutputFile) @$(ObjectsFileList) $(LibPath) $(Libs) $(LinkOptions)
 
 $(IntermediateDirectory)/.d:
-	@test -d ./Release || $(MakeDirCommand) ./Release
+	@test -d ./Debug || $(MakeDirCommand) ./Debug
 
 PreBuild:
 
@@ -88,22 +88,22 @@ PreBuild:
 ## Objects
 ##
 $(IntermediateDirectory)/main$(ObjectSuffix): main.cpp 
-	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/maxis11/sources/clang/snifer_clang/main.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/main$(ObjectSuffix) $(IncludePath)
+	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/maxis11/sources/clang/ifscanner/main.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/main$(ObjectSuffix) $(IncludePath)
 $(IntermediateDirectory)/main$(PreprocessSuffix): main.cpp
 	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/main$(PreprocessSuffix) "main.cpp"
 
 $(IntermediateDirectory)/concurent_queue$(ObjectSuffix): concurent_queue.cpp 
-	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/maxis11/sources/clang/snifer_clang/concurent_queue.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/concurent_queue$(ObjectSuffix) $(IncludePath)
+	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/maxis11/sources/clang/ifscanner/concurent_queue.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/concurent_queue$(ObjectSuffix) $(IncludePath)
 $(IntermediateDirectory)/concurent_queue$(PreprocessSuffix): concurent_queue.cpp
 	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/concurent_queue$(PreprocessSuffix) "concurent_queue.cpp"
 
 $(IntermediateDirectory)/iflog$(ObjectSuffix): iflog.cpp 
-	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/maxis11/sources/clang/snifer_clang/iflog.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/iflog$(ObjectSuffix) $(IncludePath)
+	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/maxis11/sources/clang/ifscanner/iflog.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/iflog$(ObjectSuffix) $(IncludePath)
 $(IntermediateDirectory)/iflog$(PreprocessSuffix): iflog.cpp
 	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/iflog$(PreprocessSuffix) "iflog.cpp"
 
 $(IntermediateDirectory)/ifscanner$(ObjectSuffix): ifscanner.cpp 
-	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/maxis11/sources/clang/snifer_clang/ifscanner.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/ifscanner$(ObjectSuffix) $(IncludePath)
+	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/maxis11/sources/clang/ifscanner/ifscanner.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/ifscanner$(ObjectSuffix) $(IncludePath)
 $(IntermediateDirectory)/ifscanner$(PreprocessSuffix): ifscanner.cpp
 	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/ifscanner$(PreprocessSuffix) "ifscanner.cpp"
 
@@ -124,6 +124,6 @@ clean:
 	$(RM) $(IntermediateDirectory)/ifscanner$(DependSuffix)
 	$(RM) $(IntermediateDirectory)/ifscanner$(PreprocessSuffix)
 	$(RM) $(OutputFile)
-	$(RM) ".build-release/snifer_clang"
+	$(RM) ".build-debug/snifer_clang"
 
 

@@ -2,6 +2,7 @@
 
 void producer_func(Protocol* pack)
 {
+	pack->prod_launched = 1;
 	size_t numbytes;
 	char buf[IP_MAXPACKET];
 	Buffer* tmpbuf;
@@ -15,10 +16,12 @@ void producer_func(Protocol* pack)
 		pack->bufs.push(tmpbuf);
 	}
 	pack->notelog->write_log(std::string("complete: producer_func()"));
+	pack->prod_launched = 0;
 }
 
 void consumer_func (Protocol* pack)
 {
+	pack->cons_launched = 1;
 	Buffer* bufobj;
 	Buffer *outpack;
 	int err;
@@ -35,6 +38,7 @@ void consumer_func (Protocol* pack)
 		delete bufobj;
 	}
 	pack->notelog->write_log(std::string("complete: consumer_func()"));
+	pack->cons_launched = 0;
 }
 
 
@@ -148,13 +152,8 @@ int InterfaceScanner::launch_protocol(size_t num)
 		return -1;
 	}
 	prtcls.at(num)->exit_thread = 0;
-	#ifdef USE_BOOST_THREAD
-	prtcls.at(num)->producer = boost::thread(producer_func,prtcls.at(num));
-	prtcls.at(num)->consumer = boost::thread(consumer_func,prtcls.at(num));
-	#else
 	prtcls.at(num)->producer = std::thread(producer_func,prtcls.at(num));
 	prtcls.at(num)->consumer = std::thread(consumer_func,prtcls.at(num));
-	#endif
 	notelog.write_log(std::string("complete: launch_protocol()"));
 	return 0;
 }
@@ -176,10 +175,9 @@ int InterfaceScanner::stop_protocol(size_t num)
 	if (prtcls.at(num)->exit_thread == 0)
 	{
 		prtcls.at(num)->exit_thread = 1;
-		if (prtcls.at(num)->producer.joinable())
-			prtcls.at(num)->producer.join();
-		if (prtcls.at(num)->consumer.joinable())
-			prtcls.at(num)->consumer.join();
+		while ((prtcls.at(num)->prod_launched) || (prtcls.at(num)->cons_launched)) {};
+		prtcls.at(num)->producer.join();
+		prtcls.at(num)->consumer.join();
 	}
 	notelog.write_log(std::string("complete: stop_protocol()"));
 	return 0;
@@ -187,8 +185,16 @@ int InterfaceScanner::stop_protocol(size_t num)
 
 void InterfaceScanner::stop_all()
 {
-	for (size_t i = 0; i < prtcls.size(); i++)
-		stop_protocol(i);
+	for (auto i = prtcls.begin(); i!=prtcls.end(); i++)
+	{
+		if ((*i)->exit_thread == 0)
+		{
+			(*i)->exit_thread = 1;
+			while (((*i)->prod_launched) || ((*i)->cons_launched)) {};
+			(*i)->producer.join();
+			(*i)->consumer.join();
+		}
+	}
 	notelog.write_log(std::string("complete: stop_all()"));
 }
 
@@ -220,11 +226,11 @@ int InterfaceScanner::get_out_data(size_t num,std::vector<Buffer*> &outdata)
 	return 0;
 }
 
-InterfaceScanner::~InterfaceScanner()
+void InterfaceScanner::clean_all()
 {
+	stop_all();
 	for (int i = prtcls.size() -1; i >= 0; i--)
 	{
-		stop_protocol(i);
 		prtcls.at(i)->bufs.clean();
 		delete [] prtcls.at(i);
 		prtcls.pop_back();

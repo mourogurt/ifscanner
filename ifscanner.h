@@ -6,7 +6,6 @@
 #include <netinet/in.h>
 #include <netinet/ip.h>
 #define __FAVOR_BSD
-#include <netinet/tcp.h>
 #include <arpa/inet.h>
 #include <bits/ioctls.h>
 #include <net/if.h>
@@ -31,6 +30,8 @@ struct Protocol  //TCP протокол
    functor proc; //сам функтор с callback функцией
    std::thread producer; //поток, который будет считывать с интерфэйса
    std::thread consumer; //поток, который обрабатывает буффер
+   bool cons_launched;
+   bool prod_launched;
    std::mutex queue_value; //синхронизация потоков
    Log *notelog; //лог уведомления
    Log *errlog; //лог ошибок
@@ -58,7 +59,7 @@ class InterfaceScanner //Основной класс
    std::vector<std::string> get_log(); //Получаем лог
    std::vector<std::string> get_error_log(); //Получаем лог ошибок
    int get_out_data(size_t,std::vector<Buffer*>&); //Получаем вых. данные из протокола
-   ~InterfaceScanner();  //Деструктор, все чистим, все останавливаем
+   void clean_all();  //Все чистим, все останавливаем
   private:
    ifreq ifopts;
    bool prom_mode;

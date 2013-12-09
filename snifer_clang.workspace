@@ -8,7 +8,7 @@
   <Project Name="unit_test_conc_queue_critical2" Path="unit_test_conc_queue_critical2/unit_test_conc_queue_critical2.project" Active="No"/>
   <Project Name="unit_test_log_multithreads" Path="unit_test_log_multithreads/unit_test_log_multithreads.project" Active="No"/>
   <BuildMatrix>
-    <WorkspaceConfiguration Name="Debug" Selected="no">
+    <WorkspaceConfiguration Name="Debug" Selected="yes">
       <Project Name="snifer_clang" ConfigName="Debug"/>
       <Project Name="test_snifer" ConfigName="Debug"/>
       <Project Name="unit_test_conc_queue" ConfigName="Debug"/>
@@ -17,7 +17,7 @@
       <Project Name="unit_test_conc_queue_critical2" ConfigName="Debug"/>
       <Project Name="unit_test_log_multithreads" ConfigName="Debug"/>
     </WorkspaceConfiguration>
-    <WorkspaceConfiguration Name="Release" Selected="yes">
+    <WorkspaceConfiguration Name="Release" Selected="no">
       <Project Name="snifer_clang" ConfigName="Release"/>
       <Project Name="test_snifer" ConfigName="Release"/>
       <Project Name="unit_test_conc_queue" ConfigName="Release"/>
