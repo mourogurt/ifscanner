@@ -1,1 +1,0 @@
-./Release/main.o ./Release/concurent_queue.o ./Release/iflog.o ./Release/ifscanner.o
