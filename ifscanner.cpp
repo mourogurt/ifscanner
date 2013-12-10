@@ -208,7 +208,10 @@ void InterfaceScanner::stop_all()
 		if ((*i)->exit_thread == 0)
 		{
 			(*i)->exit_thread = 1;
-			while (((*i)->prod_launched) || ((*i)->cons_launched)) {};
+			while (((*i)->prod_launched) || ((*i)->cons_launched))
+			{
+				std::this_thread::sleep_for(std::chrono::microseconds(1));
+			};
 			(*i)->producer.join();
 			(*i)->consumer.join();
 		}

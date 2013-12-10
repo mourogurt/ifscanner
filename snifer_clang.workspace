@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CodeLite_Workspace Name="snifer_clang" Database="">
-  <Project Name="snifer_clang" Path="snifer_clang.project" Active="No"/>
+  <Project Name="snifer_clang" Path="snifer_clang.project" Active="Yes"/>
   <Project Name="test_snifer" Path="test_snifer/test_snifer.project" Active="No"/>
   <Project Name="unit_test_conc_queue" Path="unit_test_conc_queue/unit_test_conc_queue.project" Active="No"/>
   <Project Name="unit_test_conc_queue_nothreads" Path="unit_test_conc_queue_nothreads/unit_test_conc_queue_nothreads.project" Active="No"/>
   <Project Name="unit_test_conc_queue_critical" Path="unit_test_conc_queue_critical/unit_test_conc_queue_critical.project" Active="No"/>
   <Project Name="unit_test_conc_queue_critical2" Path="unit_test_conc_queue_critical2/unit_test_conc_queue_critical2.project" Active="No"/>
   <Project Name="unit_test_log_multithreads" Path="unit_test_log_multithreads/unit_test_log_multithreads.project" Active="No"/>
-  <Project Name="unit_test_ifscanner_inout_data" Path="unit_test_ifscanner_inout_data/unit_test_ifscanner_inout_data.project" Active="Yes"/>
+  <Project Name="unit_test_ifscanner_inout_data" Path="unit_test_ifscanner_inout_data/unit_test_ifscanner_inout_data.project" Active="No"/>
   <BuildMatrix>
     <WorkspaceConfiguration Name="Debug" Selected="no">
       <Project Name="snifer_clang" ConfigName="Debug"/>
