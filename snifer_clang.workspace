@@ -9,7 +9,7 @@
   <Project Name="unit_test_log_multithreads" Path="unit_test_log_multithreads/unit_test_log_multithreads.project" Active="No"/>
   <Project Name="unit_test_ifscanner_inout_data" Path="unit_test_ifscanner_inout_data/unit_test_ifscanner_inout_data.project" Active="Yes"/>
   <BuildMatrix>
-    <WorkspaceConfiguration Name="Debug" Selected="yes">
+    <WorkspaceConfiguration Name="Debug" Selected="no">
       <Project Name="snifer_clang" ConfigName="Debug"/>
       <Project Name="test_snifer" ConfigName="Debug"/>
       <Project Name="unit_test_conc_queue" ConfigName="Debug"/>

@@ -190,7 +190,10 @@ int InterfaceScanner::stop_protocol(size_t num)
 	if (prtcls.at(num)->exit_thread == 0)
 	{
 		prtcls.at(num)->exit_thread = 1;
-		while ((prtcls.at(num)->prod_launched) || (prtcls.at(num)->cons_launched)) {};
+		while ((prtcls.at(num)->prod_launched) || (prtcls.at(num)->cons_launched))
+		{
+			std::this_thread::sleep_for(std::chrono::microseconds(1));
+		};
 		prtcls.at(num)->producer.join();
 		prtcls.at(num)->consumer.join();
 	}

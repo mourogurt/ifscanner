@@ -31,6 +31,7 @@ int main(int argc, char **argv)
 	}
 	for (int i = 0; i < MAX_OUT; i++)
 		if (testmas[i] != i + (MAX_INPUT-MAX_OUT)) std::cout<<"Test failed at: "<<i<<"\tResult: "<<testmas[i]<<std::endl;
+	testqueue.clean();
 	std::cout<<"Finished\n";
 	return 0;
 }

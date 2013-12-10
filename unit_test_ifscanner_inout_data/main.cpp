@@ -2,6 +2,7 @@
 #include <iostream>
 #include <cstring>
 #include <cstdlib>
+#include <chrono>
 #include <netinet/tcp.h>
 #include <netinet/udp.h>
 #include <netinet/ip.h>
@@ -49,7 +50,7 @@ int main(int argc, char **argv)
 	testscan.set_max_buf(prot1,10000);
 	testscan.set_callback(prot1,testfoo);
 	testscan.launch_protocol(prot1);
-	system ("sleep 5");
+	std::this_thread::sleep_for(std::chrono::seconds(5));
 	testscan.stop_protocol(prot1);
 	std::vector<Buffer*> bufsout;
 	testscan.get_out_data(prot1,bufsout);
@@ -68,5 +69,5 @@ int main(int argc, char **argv)
 	testscan.clean_all();
 	delete [] str;
 	std::cout<<"Finished\n";
-    if ((kolraz!=kolrazin) && (kolraz!=kolrazout)) return 1; else return 0;
+    if ((kolraz!=kolrazin) || (kolraz!=kolrazout)) return 1; else return 0;
 }

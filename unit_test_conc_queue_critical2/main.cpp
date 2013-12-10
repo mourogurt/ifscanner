@@ -29,6 +29,7 @@ int main(int argc, char **argv)
 	}
 	for (int i = MAX_INPUT; i < MAX_OUT; i++)
 		if (testmas[i] != 1) std::cout<<"Test failed at: "<<i<<"\tResult: "<<testmas[i]<<std::endl;
+	testqueue.clean();
 	std::cout<<"Finished\n";
 	return 0;
 }

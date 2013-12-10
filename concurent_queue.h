@@ -16,6 +16,7 @@ public:
 	void set_max_size(size_t);
 	void set_priority(bool);
 	void clean();
+	~ConcurentQueue();
 private:
 	size_t queue_size;
 	size_t max_size;

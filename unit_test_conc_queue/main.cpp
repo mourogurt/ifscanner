@@ -62,6 +62,7 @@ int main(int argc, char **argv)
 	}
 	for (int i = 0; i < MAX_WRITES; i++)
 		if (testmas[i] != MAX_THREADS) std::cout<<"Test failed at: "<<i<<"\tResult: "<<testmas[i]<<std::endl;
+	testqueue.clean();
 	std::cout<<"Finished\n";
 	return 0;
 }
