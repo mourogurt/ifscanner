@@ -28,12 +28,15 @@ void consumer_func (Protocol* pack)
 	while (!pack->exit_thread)
 	{
 		bufobj=pack->bufs.pop();
-		outpack = nullptr;
-		err = pack->proc.func(bufobj->buff,bufobj->buffsize,pack->indata,outpack);
+		outpack = new Buffer;
+		outpack->buff = NULL;
+		err = pack->proc(bufobj,pack->indata,outpack);
 		if (err!=0)
 			pack->errlog->write_log((std::string("error: proc.func() ")+std::to_string(err)));
-		if (outpack!=nullptr)
+		if (outpack->buff != NULL)
 			pack->outdata.push(outpack);
+		else
+			delete outpack;
 		delete [] bufobj->buff;
 		delete bufobj;
 	}
@@ -58,11 +61,13 @@ int InterfaceScanner::add_protocol(int typeprotin)
 	if (tmppack->sock == -1)
 	{
 		errlog.write_log((std::string("error: socket() ")+std::to_string(tmppack->sock)));
+		delete tmppack;
 		return -1;
 	}
 	tmppack->head_on = 1;
 	if (setsockopt(tmppack->sock, IPPROTO_IP, IP_HDRINCL, &tmppack->head_on, sizeof(tmppack->head_on)) == -1) {
 		errlog.write_log((std::string("error: setsockopt()")+std::to_string(IP_HDRINCL)));
+		delete tmppack;
 		return -1;
 	}
 	ioctl(tmppack->sock, SIOCGIFFLAGS, &ifopts);
@@ -89,16 +94,22 @@ int InterfaceScanner::remove_protocol(size_t num)
 		errlog.write_log((std::string("error: remove_protocol()")+std::to_string(num)));
 		return -1;
 	}
+	if (prtcls.at(num)->indata != NULL)
+	{
+		if (prtcls.at(num)->indata->buff != NULL)
+			delete [] prtcls.at(num)->indata->buff;
+		delete prtcls.at(num)->indata;
+	}
 	stop_protocol(num);
 	prtcls.at(num)->bufs.clean();
-	Protocol* dltprtcl = prtcls.at(num);
+	close(prtcls.at(num)->sock);
+	delete prtcls.at(num);
 	prtcls.erase(prtcls.begin() + num);
-	delete dltprtcl;
 	notelog.write_log(std::string("complete: remove_protocol()"));
 	return 0;
 }
 
-int InterfaceScanner::set_callback(size_t num,functor infunc)
+int InterfaceScanner::set_callback(size_t num,PROTOCOL_CALLBACK infunc)
 {
 	if (num >= prtcls.size())
 	{
@@ -132,14 +143,18 @@ void InterfaceScanner::set_max_err_log(size_t maxelem)
 	errlog.set_max_log(maxelem);
 }
 
-int InterfaceScanner::set_input_data(size_t num,Buffer* indata)
+int InterfaceScanner::set_input_data(size_t num,Buffer indat)
 {
 	if (num >= prtcls.size())
 	{
 		errlog.write_log((std::string("error: set_input_data()")+std::to_string(num)));
 		return -1;
 	}
-	prtcls.at(num)->indata = indata;
+	
+	prtcls.at(num)->indata = new Buffer;
+	prtcls.at(num)->indata->buffsize = indat.buffsize;
+	prtcls.at(num)->indata->buff = new char [indat.buffsize];
+	memcpy(prtcls.at(num)->indata->buff,indat.buff,indat.buffsize);
 	notelog.write_log(std::string("complete: set_input_data()"));
 	return 0;
 }
@@ -231,8 +246,15 @@ void InterfaceScanner::clean_all()
 	stop_all();
 	for (int i = prtcls.size() -1; i >= 0; i--)
 	{
+		if (prtcls.at(i)->indata != NULL)
+		{
+			if (prtcls.at(i)->indata->buff != NULL)
+				delete [] prtcls.at(i)->indata->buff;
+			delete prtcls.at(i)->indata;
+		}
 		prtcls.at(i)->bufs.clean();
-		delete [] prtcls.at(i);
+		close(prtcls.at(i)->sock);
+		delete prtcls.at(i);
 		prtcls.pop_back();
 	}
 }

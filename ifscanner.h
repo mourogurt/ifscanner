@@ -16,7 +16,6 @@
 #include <vector>
 #include "iflog.h"
 #include "concurent_queue.h"
-#include <iostream>
 
 struct Protocol  //TCP протокол
 {
@@ -27,7 +26,7 @@ struct Protocol  //TCP протокол
    ConcurentQueue bufs; //очередь буфферов
    Buffer *indata; //доп. параметры callback функции
    ConcurentQueue outdata;  //вых. параметры callback функции
-   functor proc; //сам функтор с callback функцией
+   PROTOCOL_CALLBACK proc; //сам функтор с callback функцией
    std::thread producer; //поток, который будет считывать с интерфэйса
    std::thread consumer; //поток, который обрабатывает буффер
    bool cons_launched;
@@ -47,11 +46,11 @@ class InterfaceScanner //Основной класс
    InterfaceScanner(std::string,bool);  //Конструктор, 1 пармаетр: имя интерфэйса. 2 параметр:promiscuous mode
    int add_protocol (int); //Добавляем протокол. Если возратил -1, то ошибка
    int remove_protocol (size_t); //Удаляем протокол
-   int set_callback (size_t,functor); //Устанавливаем функтор в протокол
+   int set_callback (size_t,PROTOCOL_CALLBACK); //Устанавливаем функтор в протокол
    int set_max_buf (size_t,size_t);  //Максимальный размер очереди
    void set_max_log (size_t);
    void set_max_err_log (size_t);
-   int set_input_data (size_t,Buffer*); //Задаем входные данные
+   int set_input_data (size_t,Buffer); //Задаем входные данные
    int launch_protocol (size_t);  //Запускаем протокол
    void launch_all ();  //Запускаем все протоколы
    int stop_protocol (size_t);  //Останавливаем протокол

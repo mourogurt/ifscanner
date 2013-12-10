@@ -128,8 +128,3 @@ void ConcurentQueue::clean()
 		
 	}
 }
-
-ConcurentQueue::~ConcurentQueue()
-{
-	clean();
-}
